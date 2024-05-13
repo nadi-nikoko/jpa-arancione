@@ -25,6 +25,10 @@ public class LibreriaArancione {
         Store.saveLibrary(book);
     }
 
+    public static void updateStudent(Student Student) {
+        Store.saveStudent(Student);
+    }
+
     public static Student findStudentById(int id) {
         Student studentBuyer = Store.findStudentById(id);
         return studentBuyer;
@@ -64,4 +68,13 @@ public class LibreriaArancione {
     public static List<BookTransaction> booksTransaction() {
         return Store.booksTransaction();
     }
+
+    public static int TotalBooksSold() {
+        return Store.TotalBooksSold();
+    }
+
+    public static int TotalCash() {
+        return Store.TotalCash();
+    }
+
 }

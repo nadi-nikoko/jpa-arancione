@@ -47,6 +47,9 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
+                this.getContentPane().setBackground(new java.awt.Color(173, 216, 230)); // Light Blue
+
+
                 jLabel1 = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();
                 jLabel3 = new javax.swing.JLabel();
@@ -62,17 +65,20 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
                 btnAddStudent = new javax.swing.JButton();
                 btnReturn = new javax.swing.JButton();
 
+                btnAddStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnReturn.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+
                 setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-                jLabel1.setText("Name");
+                jLabel1.setText("NAME");
 
-                jLabel2.setText("Surname");
+                jLabel2.setText("SURNAME");
 
-                jLabel3.setText("Phone");
+                jLabel3.setText("PHONE");
 
-                jLabel4.setText("Email");
+                jLabel4.setText("EMAIL");
 
-                jLabel5.setText("School Year");
+                jLabel5.setText("SCHOOL YEAR");
 
                 jShowCustomer.setEditable(false);
                 jScrollPane1.setViewportView(jShowCustomer);
@@ -223,21 +229,29 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
                 String email = txEmail.getText();
                 String schoolYear = txSchoolYear.getText();
                 try {
+                        // checking if txPhone has only numbers on it
+                        int phoneConvertion = Integer.parseInt(txPhone.getText());
+
                         if (update) {
                                 updateStudent.setName(name);
                                 updateStudent.setSurname(surname);
                                 updateStudent.setPhone(phone);
                                 updateStudent.setEmail(email);
                                 updateStudent.setSchoolYear(schoolYear);
-                                LibreriaArancione.addStudent(name, surname, email, phone, schoolYear);
+                                LibreriaArancione.updateStudent(updateStudent);
                         } else {
                                 LibreriaArancione.addStudent(name, surname, email, phone, schoolYear);
                         }
                         this.dispose();
                         new WindowGuiSellingBook().setVisible(true);
-                } catch (Exception e) {
+                } catch (NumberFormatException e){
+                        JOptionPane.showMessageDialog(null, "Phone needs to be a number");
+
+                }catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "ERROR: All Fields Required");
-                        System.out.println(e);
+                        
+                        System.out.println("Exception Type: " + e.getClass().getName());
+                        System.out.println("Exception Message: " + e.getMessage());
                 }
 
         }

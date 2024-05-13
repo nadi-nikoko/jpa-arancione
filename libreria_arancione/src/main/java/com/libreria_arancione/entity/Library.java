@@ -29,14 +29,11 @@ import lombok.ToString;
         @NamedQuery(name = Library.FIND_BOOK_BY_AUTHOR, query = "SELECT l FROM Library l WHERE l.author LIKE :author AND available=true")
 })
 @Table(name = "library")
-public class Library implements Serializable {
+public class Library extends BaseEntity implements Serializable {
 
     public final static String FIND_BOOK_BY_TITLE = "Library.findBookByTitle";
     public final static String FIND_BOOK_BY_AUTHOR = "Library.findBookByAuthor";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     @Column(nullable=false)
     @NotBlank (message = "The title field is required")
     private String title;

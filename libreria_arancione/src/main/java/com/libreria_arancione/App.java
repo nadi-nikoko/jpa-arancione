@@ -48,11 +48,6 @@ public class App {
             System.out.println("student: " + std.getName() + " " + std.getSurname());
         }
 
-        List<Student> studentBySurname = Store.findStudentBySurname("nad");
-        for (Student std : studentBySurname) {
-            System.out.println("student: " + std.getName() + " " + std.getSurname());
-        }
-
         // List<Library> bookByAuthor = Store.findBookByAuthor("sadi");
         // for (Library book : bookByAuthor) {
         // System.out.println("title: " + book.getTitle() + " author: " +

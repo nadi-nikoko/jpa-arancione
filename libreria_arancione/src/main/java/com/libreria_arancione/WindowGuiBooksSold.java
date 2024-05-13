@@ -27,7 +27,7 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
     }
 
     private void addEventListeners() {
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnReturn.addActionListener(this::btnReturnActionPerformed);
     }
 
     /**
@@ -40,16 +40,23 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        this.getContentPane().setBackground(new java.awt.Color(173, 216, 230)); // Light Blue
+
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListofBooks = new javax.swing.JList<>();
 
+        btnReturn.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("BOOKS SOLD AT LIBRERIA ARIANCIONE");
+        int booksSold = LibreriaArancione.TotalBooksSold();
+        int totalCash = LibreriaArancione.TotalCash();
 
-        jButton1.setText("return");
+        jLabel1.setText("ARANCIONE - BOOKS SOLD: " + booksSold + " ---- TOTAL CASH: " + totalCash);
+
+        btnReturn.setText("return");
 
         jScrollPane2.setViewportView(jListofBooks);
 
@@ -62,7 +69,7 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 472,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(65, 65, 65)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91,
+                                .addComponent(btnReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 91,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(76, 76, 76))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -79,7 +86,7 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(166, 166, 166)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48,
+                                                .addComponent(btnReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 48,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -90,11 +97,11 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnReturnActionPerformed
         this.dispose();
         new WindowGuiSellingBook().setVisible(true);
 
-    }// GEN-LAST:event_jButton1ActionPerformed
+    }// GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,8 +157,9 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jListofBooks;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

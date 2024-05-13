@@ -9,6 +9,8 @@ import com.libreria_arancione.entity.Library;
 import com.libreria_arancione.entity.Student;
 import jakarta.persistence.RollbackException;
 import java.util.List;
+import java.util.Optional;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -52,6 +54,8 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
+                this.getContentPane().setBackground(new java.awt.Color(173, 216, 230)); // Light Blue
+
                 jLabel1 = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();
                 jLabel3 = new javax.swing.JLabel();
@@ -75,33 +79,49 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-                jLabel1.setText("Search Book");
-
-                jLabel2.setText("Search Student");
-
-                jLabel3.setText("Price");
-
-                jPurchase.setText("Finish Purchase");
-
-                btnDeleteBook.setText("Delete Book");
-                btnDeleteStudent.setText("Delete Student");
-                btnAddStudent.setText("Add Student");
-
-                jBtnSearchBook.setText("Search");
-
-                btnAddBook.setText("Add Book");
-
+                jLabel1.setText("SEARCH BOOK");
+                jLabel2.setText("SEARCH STUDENT");
+                jLabel3.setText("PRICE");
+                jPurchase.setText("PURCHASE");
+                btnDeleteBook.setText("DELETE");
+                btnDeleteStudent.setText("DELETE");
+                btnAddStudent.setText("ADD");
+                jBtnSearchBook.setText("SEARCH");
+                btnAddBook.setText("ADD");
                 jScrollPane4.setViewportView(jListStudents);
-
-                jBtnSearchStudent.setText("Search");
-
-                btnUpdateBook.setText("Update Book");
-
-                btnUpdateStudent.setText("Update Student");
-
+                jBtnSearchStudent.setText("SEARCH");
+                btnUpdateBook.setText("UPDATE");
+                btnUpdateStudent.setText("UPDATE");
                 jScrollPane5.setViewportView(jListBooks);
+                jBooksSold.setText("BOOKS SOLD");
 
-                jBooksSold.setText("Books Sold");
+                // Set text and background colors to match a vintage aesthetic
+                jLabel3.setForeground(new java.awt.Color(0, 0, 255)); // Blue
+                jPurchase.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnDeleteBook.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnDeleteStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnAddStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnAddBook.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                jBtnSearchBook.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                jBtnSearchStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnUpdateBook.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnUpdateStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                jBooksSold.setBackground(new java.awt.Color(255, 165, 0)); 
+
+                jLabel3.setFont(new java.awt.Font("Courier New", 1, 24));
+                txStudent.setFont(new java.awt.Font("Courier New", 0, 14));
+                txPrice.setFont(new java.awt.Font("Courier New", 0, 14));
+                txBook.setFont(new java.awt.Font("Courier New", 0, 14));
+                jPurchase.setFont(new java.awt.Font("Courier New", 1, 16));
+                btnDeleteBook.setFont(new java.awt.Font("Courier New", 1, 16));
+                btnDeleteStudent.setFont(new java.awt.Font("Courier New", 1, 16));
+                btnAddStudent.setFont(new java.awt.Font("Courier New", 1, 16));
+                btnAddBook.setFont(new java.awt.Font("Courier New", 1, 16));
+                jBtnSearchBook.setFont(new java.awt.Font("Courier New", 1, 16));
+                jBtnSearchStudent.setFont(new java.awt.Font("Courier New", 1, 16));
+                btnUpdateBook.setFont(new java.awt.Font("Courier New", 1, 16));
+                btnUpdateStudent.setFont(new java.awt.Font("Courier New", 1, 16));
+                jBooksSold.setFont(new java.awt.Font("Courier New", 1, 16));
 
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                 getContentPane().setLayout(layout);
@@ -120,7 +140,7 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
                                                                                                                                 .addGap(73, 73, 73)
                                                                                                                                 .addComponent(jLabel1,
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                                70,
+                                                                                                                                                200,
                                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                                                                 .addGap(462, 462,
                                                                                                                                                 462)
@@ -411,27 +431,37 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                 jListStudents.setModel(listStudentModel);
 
-        }// GEN-LAST:event_jBtnSearchStudentActionPerformed
+        }
 
-        private void btnDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeleteBookActionPerformed
+        private void btnDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {
+
                 bookSelected = jListBooks.getSelectedValue();
+                if(bookSelected!=null){
                 String[] parts = bookSelected.split(" - ");
                 int id = Integer.parseInt(parts[0]);
                 LibreriaArancione.deleteBook(id);
                 jBtnSearchBookActionPerformed(evt);
+                } else
+                        JOptionPane.showMessageDialog(null, "Select a Book");
 
-        }// GEN-LAST:event_btnDeleteBookActionPerformed
+        }
 
         private void btnUpdateBookActionPerformed(java.awt.event.ActionEvent evt) {
-                bookSelected = jListBooks.getSelectedValue();
-                String[] parts = bookSelected.split(" - ");
-                int id = Integer.parseInt(parts[0]);
-                Library book = LibreriaArancione.findBookById(id);
-                dispose();
 
-                System.out.println(book);
-                new WindowGuiAddBook(id).setVisible(true);
+                bookSelected = jListBooks.getSelectedValue(); 
+                if(bookSelected!=null){
+                        String[] parts = bookSelected.split(" - ");
+                        int id = Integer.parseInt(parts[0]);
+                        Library book = LibreriaArancione.findBookById(id);
+                        dispose();
+                        new WindowGuiAddBook(id).setVisible(true);
+                } else 
+                        JOptionPane.showMessageDialog(null, "Select a Book");
+                
         }
+                
+        
+
 
         private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {
                 this.dispose();
@@ -441,10 +471,13 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
         private void btnDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {
                 studentSelected = jListStudents.getSelectedValue();
+                if(studentSelected!=null){
                 String[] parts = studentSelected.split(" - ");
                 int id = Integer.parseInt(parts[0]);
                 LibreriaArancione.deleteStudent(id);
                 jBtnSearchStudentActionPerformed(evt);
+                } else
+                        JOptionPane.showMessageDialog(null, "Select a Student");
         }
 
         private void jBooksSoldActionPerformed(java.awt.event.ActionEvent evt) {
@@ -452,15 +485,17 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
                 new WindowGuiBooksSold().setVisible(true);
         }
 
-        private void btnUpdateStudentActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnUpdateStudentActionPerformed
+        private void btnUpdateStudentActionPerformed(java.awt.event.ActionEvent evt) {
+
                 studentSelected = jListStudents.getSelectedValue();
+                if(studentSelected!=null){
                 String[] parts = studentSelected.split(" - ");
                 int id = Integer.parseInt(parts[0]);
                 Student student = LibreriaArancione.findStudentById(id);
                 dispose();
-
-                System.out.println(student);
                 new WindowGuiAddStudent(id).setVisible(true);
+                } else
+                JOptionPane.showMessageDialog(null, "Select a Student");
         }
 
         /**

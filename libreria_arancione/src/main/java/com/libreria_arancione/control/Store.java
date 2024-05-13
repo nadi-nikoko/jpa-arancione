@@ -1,17 +1,16 @@
 package com.libreria_arancione.control;
 
 import com.libreria_arancione.entity.Library;
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
+import java.util.stream.Collectors;
 import com.libreria_arancione.entity.BookTransaction;
-import com.libreria_arancione.entity.CoverType;
 import com.libreria_arancione.entity.Student;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+
 import javax.swing.JOptionPane;
 
 public class Store {
@@ -44,8 +43,6 @@ public class Store {
         beginTransaction();
         Student saved = em.merge(student);
         commitTransaction();
-
-        System.out.println("Student saved successfully!");
     }
 
     public static void saveLibrary(Library book) {
@@ -53,14 +50,12 @@ public class Store {
         beginTransaction();
         Library saved = em.merge(book);
         commitTransaction();
-        System.out.println("book item saved");
     }
 
     public static void saveBookTransaction(BookTransaction bookTransaction) {
         beginTransaction();
         BookTransaction saved = em.merge(bookTransaction);
         commitTransaction();
-        System.out.println("book Transaction valid");
     }
     
     public static void InvalidateStudent(Student student){
@@ -78,38 +73,40 @@ public class Store {
          commitTransaction();
      }
 
-    public static List<Library> findBookByTitle(String title) {
-        if(title.isEmpty()){
-            title=" ";
-        }
-        return em.createNamedQuery(Library.FIND_BOOK_BY_TITLE, Library.class)
-                .setParameter("title", "%" + title + "%")
+    public static List<Library> findBookByTitle(String name) {
+   
+        List<Library> resultListTitle = em.createNamedQuery(Library.FIND_BOOK_BY_TITLE, Library.class)
+                .setParameter("title", "%" + name + "%")
                 .getResultList();
+        List<Library> resultListAuthor = em.createNamedQuery(Library.FIND_BOOK_BY_AUTHOR, Library.class)
+                .setParameter("author", "%" + name + "%")
+                .getResultList();
+        List<Library> combinedList = new ArrayList(resultListTitle);
+        combinedList.addAll(resultListAuthor);
+        
+        return combinedList.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
     }
 
-    public static List<Library> findBookByAuthor(String author) {
-        if(author.isEmpty()){
-            author=" ";
-        }
-        return em.createNamedQuery(Library.FIND_BOOK_BY_AUTHOR, Library.class)
-                .setParameter("author", "%" + author + "%")
-                .getResultList();
-    }
 
     public static List<Student> findStudentByName(String name) {
-        return em.createNamedQuery(Student.FIND_STUDENT_BY_NAME, Student.class)
+        List<Student> resultListNames = em.createNamedQuery(Student.FIND_STUDENT_BY_NAME, Student.class)
                 .setParameter("name", "%" + name + "%")
                 .getResultList();
+        List<Student> resultListSurname = em.createNamedQuery(Student.FIND_STUDENT_BY_SURNAME, Student.class)
+                .setParameter("surname", "%" + name + "%")
+                .getResultList();
+
+        List<Student> combinedList = new ArrayList(resultListNames);
+        combinedList.addAll(resultListSurname);
+
+         return combinedList.stream()
+           .distinct()
+           .collect(Collectors.toList());
     }
 
-    public static List<Student> findStudentBySurname(String surname) {
-        if(surname.isEmpty()){
-            surname=" ";
-        }
-        return em.createNamedQuery(Student.FIND_STUDENT_BY_SURNAME, Student.class)
-                .setParameter("surname", "%" + surname + "%")
-                .getResultList();
-    }
     
     public static Student findStudentById (int id){
         return em.createQuery("SELECT s FROM Student s WHERE s.id =:id  AND s.activate=true", Student.class)
@@ -124,11 +121,10 @@ public class Store {
     
     public static void changeAvailabilityBook(Library book, boolean availability){
         try{
-        book.setAvailable(availability);
-        beginTransaction();
-        Library merge = em.merge(book);
-        commitTransaction();
-        System.out.println("change availability");
+            book.setAvailable(availability);
+            beginTransaction();
+            Library merge = em.merge(book);
+            commitTransaction();
         } catch (StoreException e){
             JOptionPane.showMessageDialog(null, "Change Availability didnt work");
         }
@@ -137,5 +133,15 @@ public class Store {
     public static List<BookTransaction> booksTransaction(){
         return em.createQuery("SELECT bt FROM BookTransaction bt", BookTransaction.class)
                 .getResultList();
-    } 
+    }
+
+    public static int TotalBooksSold() {
+        Number singleResult = (Number) em.createQuery("SELECT COUNT(*) FROM BookTransaction bt").getSingleResult();
+        return singleResult.intValue(); 
+    }
+
+    public static int TotalCash() {
+        Number singleResult = (Number) em.createQuery("SELECT SUM(price) FROM BookTransaction bt").getSingleResult();
+        return singleResult.intValue();
+    }
 }

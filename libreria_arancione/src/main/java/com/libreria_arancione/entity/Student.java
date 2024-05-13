@@ -2,7 +2,6 @@ package com.libreria_arancione.entity;
 
 import jakarta.persistence.Column;
 import java.io.Serializable;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,12 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,17 +24,18 @@ import lombok.ToString;
 @Entity
 @NamedQueries({
         @NamedQuery(name = Student.FIND_STUDENT_BY_NAME, query = "SELECT s FROM Student s WHERE s.name like :name AND s.activate=true"),
-        @NamedQuery(name = Student.FIND_STUDENT_BY_SURNAME, query = "SELECT s FROM Student s WHERE s.surname like :surname AND s.activate=true")
+        @NamedQuery(name = Student.FIND_STUDENT_BY_SURNAME, query = "SELECT s FROM Student s WHERE s.surname like :surname AND s.activate=true"),
+        @NamedQuery(name = Student.FIND_STUDENT_BY_NAME_OR_SURNAME, 
+            query = "SELECT s FROM Student s WHERE (:name IS NULL OR s.name LIKE :name) AND (:surname IS NULL OR s.surname LIKE :surname) AND s.activate=true")
+
 })
 @Table(name = "student")
-public class Student implements Serializable {
+public class Student extends BaseEntity implements Serializable {
 
     public final static String FIND_STUDENT_BY_NAME = "Student.findByName";
     public final static String FIND_STUDENT_BY_SURNAME = "Student.findBySurname";
+    public final static String FIND_STUDENT_BY_NAME_OR_SURNAME = "Student.findByNameOrSurname";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     @NotBlank (message = "The name is required")
     @Column(nullable=false)
     private String name;

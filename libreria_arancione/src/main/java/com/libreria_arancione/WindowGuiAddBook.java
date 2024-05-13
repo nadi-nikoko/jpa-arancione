@@ -50,6 +50,8 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
 
+                this.getContentPane().setBackground(new java.awt.Color(173, 216, 230)); // Light Blue
+
                 jLabel1 = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();
                 jLabel3 = new javax.swing.JLabel();
@@ -60,11 +62,12 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                 txISBN = new javax.swing.JTextField();
                 txPublisher = new javax.swing.JTextField();
                 txTitle = new javax.swing.JTextField();
-                jScrollPane1 = new javax.swing.JScrollPane();
-                jShowCustomer = new javax.swing.JTextPane();
-                btnAddStudent = new javax.swing.JButton();
+                btnAddBook = new javax.swing.JButton();
                 btnReturn = new javax.swing.JButton();
                 jLabel6 = new javax.swing.JLabel();
+
+                btnAddBook.setBackground(new java.awt.Color(255, 165, 0)); // Orange
+                btnReturn.setBackground(new java.awt.Color(255, 165, 0)); // Orange
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,10 +81,7 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
 
                 jLabel5.setText("Publisher");
 
-                jShowCustomer.setEditable(false);
-                jScrollPane1.setViewportView(jShowCustomer);
-
-                btnAddStudent.setText("click");
+                btnAddBook.setText("click");
                 btnReturn.setText("return");
 
                 jLabel6.setText("Cover");
@@ -139,7 +139,7 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                                                                                                                                 480,
                                                                                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                                                 .addGap(58, 58, 58)
-                                                                                                .addComponent(btnAddStudent)
+                                                                                                .addComponent(btnAddBook)
                                                                                                 .addComponent(btnReturn)
                                                                                                 .addContainerGap(62,
                                                                                                                 Short.MAX_VALUE))
@@ -158,10 +158,6 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                                                                 .createSequentialGroup()
                                                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE)
-                                                                .addComponent(jScrollPane1,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                557,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(178, 178, 178)));
                 layout.setVerticalGroup(
                                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +184,7 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                                                                                                                 .addComponent(jLabel2)))
                                                                                 .addGroup(layout.createSequentialGroup()
                                                                                                 .addGap(53, 53, 53)
-                                                                                                .addComponent(btnAddStudent)
+                                                                                                .addComponent(btnAddBook)
                                                                                                 .addComponent(btnReturn)))
                                                                 .addGap(9, 9, 9)
                                                                 .addGroup(layout.createParallelGroup(
@@ -217,17 +213,13 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                                                                 .addGap(32, 32, 32)
                                                                 .addComponent(jLabel6)
                                                                 .addGap(18, 18, 18)
-                                                                .addComponent(jScrollPane1,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                121,
-                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addContainerGap(30, Short.MAX_VALUE)));
 
                 pack();
         }
 
         private void addEventListeners() {
-                btnAddStudent.addActionListener(this::addBooks);
+                btnAddBook.addActionListener(this::addBooks);
                 btnReturn.addActionListener(this::returnPage);
         }
 
@@ -257,7 +249,11 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                         }
                         this.dispose();
                         new WindowGuiSellingBook().setVisible(true);
-                } catch (Exception e) {
+                } catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null, "ERROR: ISBN and Year of Publication must be numbers");
+                }
+                
+                catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "ERROR: All Fields Required");
                 }
         }
@@ -267,7 +263,7 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
          */
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
-        private javax.swing.JButton btnAddStudent;
+        private javax.swing.JButton btnAddBook;
         private javax.swing.JButton btnReturn;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JLabel jLabel2;
@@ -275,8 +271,6 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
         private javax.swing.JLabel jLabel4;
         private javax.swing.JLabel jLabel5;
         private javax.swing.JLabel jLabel6;
-        private javax.swing.JScrollPane jScrollPane1;
-        private javax.swing.JTextPane jShowCustomer;
         private javax.swing.JTextField txAuthor;
         private javax.swing.JTextField txISBN;
         private javax.swing.JTextField txPublisher;
