@@ -1,10 +1,6 @@
 package com.libreria_arancione.boundary;
 
 import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import com.libreria_arancione.WindowGuiSellingBook;
 import com.libreria_arancione.control.Store;
 import com.libreria_arancione.entity.BookTransaction;
 import com.libreria_arancione.entity.CoverType;
@@ -22,6 +18,10 @@ public class LibreriaArancione {
     public static void saveBook(String title, String author, int iSBN, int yearOfPublication, CoverType hardcover,
             String publisher) {
         Library book = new Library(title, author, yearOfPublication, iSBN, hardcover, publisher);
+        Store.saveLibrary(book);
+    }
+
+    public static void updateBook(Library book) {
         Store.saveLibrary(book);
     }
 

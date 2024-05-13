@@ -15,7 +15,7 @@ import com.libreria_arancione.entity.Student;
 public class App {
     public static void main(String[] args) {
 
-        Student student = new Student("nico", "nadi", "email", "545454", "4th grade");
+        Student student = new Student("nico", "nadi", "email@nnico.com", "545454", "4th grade");
         Store.saveStudent(student);
 
         Library bookItem = new Library("zero and ones", "sadie plath", 21, 5545, CoverType.HARDCOVER, "independent");

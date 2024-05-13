@@ -347,7 +347,6 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                         // After setting up the selection listeners, look for the student
                         if (studentSelected != null && bookSelected != null) {
-
                                 String[] parts = studentSelected.split(" - ");
                                 int id = Integer.parseInt(parts[0]);
                                 Student studentById = LibreriaArancione.findStudentById(id);
@@ -358,22 +357,26 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                                 LibreriaArancione.Purchase(bookById, studentById, price);
 
+                                dispose();
+                                JOptionPane.showMessageDialog(null, "BOOK SOLD");
+                                new WindowGuiSellingBook().setVisible(true);
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Select a student and a book");
                         }
+                 
 
-                        dispose();
-                        new WindowGuiSellingBook().setVisible(true);
-
+                } catch (NumberFormatException e){
+                        JOptionPane.showMessageDialog(null, "Price Field needs to be a number and cannot be empty");
                 }
-
-                catch (RollbackException e) {
-                        JOptionPane.showMessageDialog(null, "Something is wrong");
-                        System.out.println(e);
-                } catch (Exception e) {
+                catch (Exception e) {
+                        // Displaying the error message
                         JOptionPane.showMessageDialog(null, "ERROR: All Fields Required");
-                        System.out.println(e);
-                }
+                    
+                        // Printing the exception type and message
+                        System.out.println("Exception Type: " + e.getClass().getName());
+                        System.out.println("Exception Message: " + e.getMessage());
+                    }
 
-                JOptionPane.showMessageDialog(null, "BOOK SOLD");
 
         }
 
@@ -391,7 +394,6 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                 for (Library bk : bookByTitle) {
                         listModel.addElement(bk.getId() + " - " + bk.getTitle() + " by: " + bk.getAuthor());
-                        System.out.println("title: " + bk.getTitle() + " author: " + bk.getAuthor());
                 }
 
                 jListBooks.setModel(listModel);
@@ -401,14 +403,10 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                 DefaultListModel<String> listStudentModel = new DefaultListModel();
                 String student = txStudent.getText();
-                System.out.println(student);
 
                 List<Student> findStudentByName = LibreriaArancione.findStudentsByName(student);
-
-                System.out.println(findStudentByName);
                 for (Student std : findStudentByName) {
                         listStudentModel.addElement(std.getId() + " - " + std.getName() + " " + std.getSurname());
-                        System.out.println("name;" + std.getName() + " " + std.getSurname());
                 }
 
                 jListStudents.setModel(listStudentModel);

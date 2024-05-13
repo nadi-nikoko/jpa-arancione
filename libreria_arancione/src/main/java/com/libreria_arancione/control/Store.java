@@ -79,12 +79,18 @@ public class Store {
      }
 
     public static List<Library> findBookByTitle(String title) {
+        if(title.isEmpty()){
+            title=" ";
+        }
         return em.createNamedQuery(Library.FIND_BOOK_BY_TITLE, Library.class)
                 .setParameter("title", "%" + title + "%")
                 .getResultList();
     }
 
     public static List<Library> findBookByAuthor(String author) {
+        if(author.isEmpty()){
+            author=" ";
+        }
         return em.createNamedQuery(Library.FIND_BOOK_BY_AUTHOR, Library.class)
                 .setParameter("author", "%" + author + "%")
                 .getResultList();
@@ -97,6 +103,9 @@ public class Store {
     }
 
     public static List<Student> findStudentBySurname(String surname) {
+        if(surname.isEmpty()){
+            surname=" ";
+        }
         return em.createNamedQuery(Student.FIND_STUDENT_BY_SURNAME, Student.class)
                 .setParameter("surname", "%" + surname + "%")
                 .getResultList();

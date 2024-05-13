@@ -250,8 +250,7 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                                 updateBook.setPublisher(publisher);
                                 updateBook.setTitle(title);
                                 updateBook.setYearOfPublication(yearOfPublication);
-                                LibreriaArancione.saveBook(title, author, ISBN, yearOfPublication, CoverType.HARDCOVER,
-                                                publisher);
+                                LibreriaArancione.updateBook(updateBook);
                         } else {
                                 LibreriaArancione.saveBook(title, author, ISBN, yearOfPublication, CoverType.HARDCOVER,
                                                 publisher);
