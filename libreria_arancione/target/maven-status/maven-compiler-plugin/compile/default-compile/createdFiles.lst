@@ -1,0 +1,17 @@
+com\libreria_arancione\WindowGuiBooksSold$1.class
+com\libreria_arancione\WindowGuiAddStudent$1.class
+com\libreria_arancione\WindowGuiBooksSold$2$1.class
+com\libreria_arancione\entity\Student.class
+com\libreria_arancione\WindowGuiSellingBook$1.class
+com\libreria_arancione\WindowGuiAddStudent.class
+com\libreria_arancione\entity\BaseEntity.class
+com\libreria_arancione\entity\Library.class
+com\libreria_arancione\WindowGuiAddBook.class
+com\libreria_arancione\WindowGuiBooksSold.class
+com\libreria_arancione\control\StoreException.class
+com\libreria_arancione\WindowGuiBooksSold$2.class
+com\libreria_arancione\App.class
+com\libreria_arancione\control\Store.class
+com\libreria_arancione\entity\BookTransaction.class
+com\libreria_arancione\WindowGuiSellingBook.class
+com\libreria_arancione\entity\CoverType.class
