@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.libreria_arancione;
+package com.libreria_arancione.GUI;
 
 import com.libreria_arancione.boundary.LibreriaArancione;
 import com.libreria_arancione.control.Store;
 import com.libreria_arancione.entity.CoverType;
-import com.libreria_arancione.entity.Library;
+import com.libreria_arancione.entity.BookShop;
 
 import java.awt.event.ActionEvent;
 
@@ -17,18 +17,18 @@ import javax.swing.JOptionPane;
  *
  * @author utentepc
  */
-public class WindowGuiAddBook extends javax.swing.JDialog {
+public class AddBook extends javax.swing.JDialog {
 
         private boolean update;
-        private Library updateBook;
+        private BookShop updateBook;
 
-        public WindowGuiAddBook() {
+        public AddBook() {
                 this.update = false;
                 initComponents();
                 addEventListeners();
         }
 
-        public WindowGuiAddBook(int id) {
+        public AddBook(int id) {
                 this.update = true;
                 updateBook = Store.findBookById(id);
                 initComponents();
@@ -225,7 +225,7 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
 
         private void returnPage(ActionEvent evt) {
                 dispose();
-                new WindowGuiSellingBook().setVisible(true);
+                new Homepage().setVisible(true);
         }
 
         private void addBooks(ActionEvent evt) {
@@ -244,15 +244,15 @@ public class WindowGuiAddBook extends javax.swing.JDialog {
                                 updateBook.setYearOfPublication(yearOfPublication);
                                 LibreriaArancione.updateBook(updateBook);
                         } else {
-                                LibreriaArancione.saveBook(title, author, ISBN, yearOfPublication, CoverType.HARDCOVER,
+                                LibreriaArancione.addBook(title, author, ISBN, yearOfPublication, CoverType.HARDCOVER,
                                                 publisher);
                         }
                         this.dispose();
-                        new WindowGuiSellingBook().setVisible(true);
-                } catch(NumberFormatException e){
+                        new Homepage().setVisible(true);
+                } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "ERROR: ISBN and Year of Publication must be numbers");
                 }
-                
+
                 catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "ERROR: All Fields Required");
                 }

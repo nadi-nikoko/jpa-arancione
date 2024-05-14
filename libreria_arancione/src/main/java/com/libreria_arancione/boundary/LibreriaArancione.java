@@ -4,25 +4,17 @@ import java.util.List;
 import com.libreria_arancione.control.Store;
 import com.libreria_arancione.entity.BookTransaction;
 import com.libreria_arancione.entity.CoverType;
-import com.libreria_arancione.entity.Library;
+import com.libreria_arancione.entity.BookShop;
 import com.libreria_arancione.entity.Student;
 
 public class LibreriaArancione {
+
+    // Student Methods
 
     public static void addStudent(String name, String surname, String email, String phone, String schoolYear) {
 
         Student std = new Student(name, surname, email, phone, schoolYear);
         Store.saveStudent(std);
-    }
-
-    public static void saveBook(String title, String author, int iSBN, int yearOfPublication, CoverType hardcover,
-            String publisher) {
-        Library book = new Library(title, author, yearOfPublication, iSBN, hardcover, publisher);
-        Store.saveLibrary(book);
-    }
-
-    public static void updateBook(Library book) {
-        Store.saveLibrary(book);
     }
 
     public static void updateStudent(Student Student) {
@@ -34,30 +26,9 @@ public class LibreriaArancione {
         return studentBuyer;
     }
 
-    public static Library findBookById(int id) {
-        Library book = Store.findBookById(id);
-        return book;
-    }
-
-    public static void Purchase(Library bookById, Student studentById, int price) {
-        BookTransaction purchase = new BookTransaction(bookById, studentById, price);
-        Store.changeAvailabilityBook(bookById, false);
-        Store.saveBookTransaction(purchase);
-    }
-
-    public static List<Library> findBookByTitle(String book) {
-        List<Library> bookByTitle = Store.findBookByTitle(book);
-        return bookByTitle;
-    }
-
     public static List<Student> findStudentsByName(String student) {
         List<Student> studentsByName = Store.findStudentByName(student);
         return studentsByName;
-    }
-
-    public static void deleteBook(int id) {
-        Library book = findBookById(id);
-        Store.InvalidateBook(book);
     }
 
     public static void deleteStudent(int id) {
@@ -65,8 +36,43 @@ public class LibreriaArancione {
         Store.InvalidateStudent(student);
     }
 
-    public static List<BookTransaction> booksTransaction() {
-        return Store.booksTransaction();
+    // Book Methods
+
+    public static void addBook(String title, String author, int iSBN, int yearOfPublication, CoverType hardcover,
+            String publisher) {
+        BookShop book = new BookShop(title, author, yearOfPublication, iSBN, hardcover, publisher);
+        Store.AddBook(book);
+    }
+
+    public static void updateBook(BookShop book) {
+        Store.AddBook(book);
+    }
+
+    public static BookShop findBookById(int id) {
+        BookShop book = Store.findBookById(id);
+        return book;
+    }
+
+    public static List<BookShop> findBookByTitleOrAuthor(String book) {
+        List<BookShop> bookList = Store.findBookByTitleOrAuthor(book);
+        return bookList;
+    }
+
+    public static void deleteBook(int id) {
+        BookShop book = findBookById(id);
+        Store.InvalidateBook(book);
+    }
+
+    // Other Methods
+
+    public static void Purchase(BookShop bookById, Student studentById, int price) {
+        BookTransaction purchase = new BookTransaction(bookById, studentById, price);
+        Store.changeAvailabilityBook(bookById, false);
+        Store.saveBookTransaction(purchase);
+    }
+
+    public static List<BookTransaction> booksTransactionList() {
+        return Store.booksTransactionList();
     }
 
     public static int TotalBooksSold() {

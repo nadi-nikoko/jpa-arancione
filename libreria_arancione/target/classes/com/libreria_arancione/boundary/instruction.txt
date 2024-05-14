@@ -1,0 +1,6 @@
+- Deal with database connection (log in and password is: libreria)
+- Make sure there is a database table called libreria in your data base
+- Run App
+- Change value on persistente to none instead of drop-and-create
+<property name="jakarta.persistence.schema-generation.database.action" value="none" />
+- Run Homepage file

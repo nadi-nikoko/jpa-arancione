@@ -1,8 +1,12 @@
-package com.libreria_arancione;
+package com.libreria_arancione.GUI;
 
 import com.libreria_arancione.boundary.LibreriaArancione;
 import com.libreria_arancione.control.Store;
 import com.libreria_arancione.entity.Student;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 
@@ -10,20 +14,20 @@ import java.awt.event.ActionEvent;
  *
  * @author utentepc
  */
-public class WindowGuiAddStudent extends javax.swing.JDialog {
+public class AddStudent extends javax.swing.JDialog {
         /**
          * Creates new form WindowGui
          */
         private boolean update;
         private Student updateStudent;
 
-        public WindowGuiAddStudent() {
+        public AddStudent() {
                 this.update = false;
                 initComponents();
                 addEventListeners();
         }
 
-        public WindowGuiAddStudent(int id) {
+        public AddStudent(int id) {
                 this.update = true;
                 updateStudent = Store.findStudentById(id);
                 System.out.println(updateStudent);
@@ -48,7 +52,6 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
         private void initComponents() {
 
                 this.getContentPane().setBackground(new java.awt.Color(173, 216, 230)); // Light Blue
-
 
                 jLabel1 = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();
@@ -218,7 +221,7 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
 
         private void returnPage(ActionEvent evt) {
                 dispose();
-                new WindowGuiSellingBook().setVisible(true);
+                new Homepage().setVisible(true);
         }
 
         private void addStudent(ActionEvent evt) {
@@ -232,6 +235,11 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
                         // checking if txPhone has only numbers on it
                         int phoneConvertion = Integer.parseInt(txPhone.getText());
 
+                        if (!isValidEmail(email)) {
+                                JOptionPane.showMessageDialog(null, "Invalid email address");
+                                return;
+                        }
+
                         if (update) {
                                 updateStudent.setName(name);
                                 updateStudent.setSurname(surname);
@@ -243,18 +251,28 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
                                 LibreriaArancione.addStudent(name, surname, email, phone, schoolYear);
                         }
                         this.dispose();
-                        new WindowGuiSellingBook().setVisible(true);
-                } catch (NumberFormatException e){
+                        new Homepage().setVisible(true);
+                } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Phone needs to be a number");
 
-                }catch (Exception e) {
+                } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "ERROR: All Fields Required");
-                        
+
                         System.out.println("Exception Type: " + e.getClass().getName());
                         System.out.println("Exception Message: " + e.getMessage());
                 }
 
         }
+
+        private boolean isValidEmail(String email) {
+                String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+                Pattern pat = Pattern.compile(emailRegex);
+                System.out.println(email);
+                if (email == null)
+                        return false;
+                return pat.matcher(email).matches();
+        }
+
         // GEN-LAST:event_jButton1ActionPerformed
 
         /**
@@ -279,19 +297,19 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
                                 }
                         }
                 } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiAddStudent.class.getName()).log(
+                        java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiAddStudent.class.getName()).log(
+                        java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiAddStudent.class.getName()).log(
+                        java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiAddStudent.class.getName()).log(
+                        java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 }
@@ -301,7 +319,7 @@ public class WindowGuiAddStudent extends javax.swing.JDialog {
                 /* Create and display the dialog */
                 java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                                WindowGuiAddStudent dialog = new WindowGuiAddStudent();
+                                AddStudent dialog = new AddStudent();
                                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                                         @Override
                                         public void windowClosing(java.awt.event.WindowEvent e) {

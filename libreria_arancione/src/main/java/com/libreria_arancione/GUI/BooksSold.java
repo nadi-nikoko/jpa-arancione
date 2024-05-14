@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.libreria_arancione;
+package com.libreria_arancione.GUI;
 
 import com.libreria_arancione.boundary.LibreriaArancione;
 import com.libreria_arancione.control.Store;
@@ -15,12 +15,12 @@ import javax.swing.DefaultListModel;
  *
  * @author utentepc
  */
-public class WindowGuiBooksSold extends javax.swing.JDialog {
+public class BooksSold extends javax.swing.JDialog {
 
     /**
      * Creates new form WindowGui
      */
-    public WindowGuiBooksSold() {
+    public BooksSold() {
         initComponents();
         updateList();
         addEventListeners();
@@ -99,7 +99,7 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnReturnActionPerformed
         this.dispose();
-        new WindowGuiSellingBook().setVisible(true);
+        new Homepage().setVisible(true);
 
     }// GEN-LAST:event_btnReturnActionPerformed
 
@@ -124,16 +124,16 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WindowGuiBooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
+            java.util.logging.Logger.getLogger(BooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
                     null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WindowGuiBooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
+            java.util.logging.Logger.getLogger(BooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
                     null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WindowGuiBooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
+            java.util.logging.Logger.getLogger(BooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
                     null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WindowGuiBooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
+            java.util.logging.Logger.getLogger(BooksSold.class.getName()).log(java.util.logging.Level.SEVERE,
                     null, ex);
         }
         // </editor-fold>
@@ -144,7 +144,7 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                WindowGuiBooksSold dialog = new WindowGuiBooksSold();
+                BooksSold dialog = new BooksSold();
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -166,7 +166,7 @@ public class WindowGuiBooksSold extends javax.swing.JDialog {
 
     private void updateList() {
 
-        List<BookTransaction> booksTransaction = LibreriaArancione.booksTransaction();
+        List<BookTransaction> booksTransaction = LibreriaArancione.booksTransactionList();
         DefaultListModel<String> listModel = new DefaultListModel<>();
 
         for (BookTransaction bt : booksTransaction) {

@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.libreria_arancione;
+package com.libreria_arancione.GUI;
 
 import com.libreria_arancione.boundary.LibreriaArancione;
-import com.libreria_arancione.entity.Library;
+import com.libreria_arancione.entity.BookShop;
 import com.libreria_arancione.entity.Student;
 import jakarta.persistence.RollbackException;
 import java.util.List;
@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author utentepc
  */
-public class WindowGuiSellingBook extends javax.swing.JDialog {
+public class Homepage extends javax.swing.JDialog {
 
         String bookSelected;
         String studentSelected;
@@ -26,7 +26,7 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
         /**
          * Creates new form WindowGui
          */
-        public WindowGuiSellingBook() {
+        public Homepage() {
                 initComponents();
                 addEventListeners();
         }
@@ -106,7 +106,7 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
                 jBtnSearchStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
                 btnUpdateBook.setBackground(new java.awt.Color(255, 165, 0)); // Orange
                 btnUpdateStudent.setBackground(new java.awt.Color(255, 165, 0)); // Orange
-                jBooksSold.setBackground(new java.awt.Color(255, 165, 0)); 
+                jBooksSold.setBackground(new java.awt.Color(255, 165, 0));
 
                 jLabel3.setFont(new java.awt.Font("Courier New", 1, 24));
                 txStudent.setFont(new java.awt.Font("Courier New", 0, 14));
@@ -373,36 +373,33 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
                                 String[] partsBook = bookSelected.split(" - ");
                                 int idBook = Integer.parseInt(partsBook[0]);
-                                Library bookById = LibreriaArancione.findBookById(idBook);
+                                BookShop bookById = LibreriaArancione.findBookById(idBook);
 
                                 LibreriaArancione.Purchase(bookById, studentById, price);
 
                                 dispose();
                                 JOptionPane.showMessageDialog(null, "BOOK SOLD");
-                                new WindowGuiSellingBook().setVisible(true);
+                                new Homepage().setVisible(true);
                         } else {
                                 JOptionPane.showMessageDialog(null, "Select a student and a book");
                         }
-                 
 
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Price Field needs to be a number and cannot be empty");
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                         // Displaying the error message
                         JOptionPane.showMessageDialog(null, "ERROR: All Fields Required");
-                    
+
                         // Printing the exception type and message
                         System.out.println("Exception Type: " + e.getClass().getName());
                         System.out.println("Exception Message: " + e.getMessage());
-                    }
-
+                }
 
         }
 
         private void btnAddStudentActionPerformed(java.awt.event.ActionEvent evt) {
                 this.dispose();
-                new WindowGuiAddStudent().setVisible(true);
+                new AddStudent().setVisible(true);
         }
 
         private void jBtnSearchBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jBtnSearchBookActionPerformed
@@ -410,9 +407,9 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
                 DefaultListModel<String> listModel = new DefaultListModel();
                 String book = txBook.getText();
 
-                List<Library> bookByTitle = LibreriaArancione.findBookByTitle(book);
+                List<BookShop> bookByTitle = LibreriaArancione.findBookByTitleOrAuthor(book);
 
-                for (Library bk : bookByTitle) {
+                for (BookShop bk : bookByTitle) {
                         listModel.addElement(bk.getId() + " - " + bk.getTitle() + " by: " + bk.getAuthor());
                 }
 
@@ -436,11 +433,11 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
         private void btnDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {
 
                 bookSelected = jListBooks.getSelectedValue();
-                if(bookSelected!=null){
-                String[] parts = bookSelected.split(" - ");
-                int id = Integer.parseInt(parts[0]);
-                LibreriaArancione.deleteBook(id);
-                jBtnSearchBookActionPerformed(evt);
+                if (bookSelected != null) {
+                        String[] parts = bookSelected.split(" - ");
+                        int id = Integer.parseInt(parts[0]);
+                        LibreriaArancione.deleteBook(id);
+                        jBtnSearchBookActionPerformed(evt);
                 } else
                         JOptionPane.showMessageDialog(null, "Select a Book");
 
@@ -448,54 +445,54 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
 
         private void btnUpdateBookActionPerformed(java.awt.event.ActionEvent evt) {
 
-                bookSelected = jListBooks.getSelectedValue(); 
-                if(bookSelected!=null){
+                bookSelected = jListBooks.getSelectedValue();
+                if (bookSelected != null) {
                         String[] parts = bookSelected.split(" - ");
                         int id = Integer.parseInt(parts[0]);
-                        Library book = LibreriaArancione.findBookById(id);
+                        BookShop book = LibreriaArancione.findBookById(id);
                         dispose();
-                        new WindowGuiAddBook(id).setVisible(true);
-                } else 
+                        new AddBook(id).setVisible(true);
+                } else
                         JOptionPane.showMessageDialog(null, "Select a Book");
-                
-        }
-                
-        
 
+        }
 
         private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {
                 this.dispose();
-                new WindowGuiAddBook().setVisible(true);
+                new AddBook().setVisible(true);
 
         }
 
         private void btnDeleteStudentActionPerformed(java.awt.event.ActionEvent evt) {
                 studentSelected = jListStudents.getSelectedValue();
-                if(studentSelected!=null){
-                String[] parts = studentSelected.split(" - ");
-                int id = Integer.parseInt(parts[0]);
-                LibreriaArancione.deleteStudent(id);
-                jBtnSearchStudentActionPerformed(evt);
+                if (studentSelected != null) {
+                        String[] parts = studentSelected.split(" - ");
+                        int id = Integer.parseInt(parts[0]);
+                        LibreriaArancione.deleteStudent(id);
+                        jBtnSearchStudentActionPerformed(evt);
                 } else
                         JOptionPane.showMessageDialog(null, "Select a Student");
         }
 
         private void jBooksSoldActionPerformed(java.awt.event.ActionEvent evt) {
-                this.dispose();
-                new WindowGuiBooksSold().setVisible(true);
+                if (LibreriaArancione.TotalBooksSold() > 0) {
+                        this.dispose();
+                        new BooksSold().setVisible(true);
+                } else
+                        JOptionPane.showMessageDialog(null, "There is NO book Transactions");
         }
 
         private void btnUpdateStudentActionPerformed(java.awt.event.ActionEvent evt) {
 
                 studentSelected = jListStudents.getSelectedValue();
-                if(studentSelected!=null){
-                String[] parts = studentSelected.split(" - ");
-                int id = Integer.parseInt(parts[0]);
-                Student student = LibreriaArancione.findStudentById(id);
-                dispose();
-                new WindowGuiAddStudent(id).setVisible(true);
+                if (studentSelected != null) {
+                        String[] parts = studentSelected.split(" - ");
+                        int id = Integer.parseInt(parts[0]);
+                        Student student = LibreriaArancione.findStudentById(id);
+                        dispose();
+                        new AddStudent(id).setVisible(true);
                 } else
-                JOptionPane.showMessageDialog(null, "Select a Student");
+                        JOptionPane.showMessageDialog(null, "Select a Student");
         }
 
         /**
@@ -520,19 +517,19 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
                                 }
                         }
                 } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiSellingBook.class.getName()).log(
+                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiSellingBook.class.getName()).log(
+                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiSellingBook.class.getName()).log(
+                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(WindowGuiSellingBook.class.getName()).log(
+                        java.util.logging.Logger.getLogger(Homepage.class.getName()).log(
                                         java.util.logging.Level.SEVERE,
                                         null, ex);
                 }
@@ -544,7 +541,7 @@ public class WindowGuiSellingBook extends javax.swing.JDialog {
                 /* Create and display the dialog */
                 java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                                WindowGuiSellingBook dialog = new WindowGuiSellingBook();
+                                Homepage dialog = new Homepage();
                                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                                         @Override
                                         public void windowClosing(java.awt.event.WindowEvent e) {
