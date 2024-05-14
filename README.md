@@ -1,6 +1,6 @@
 - CONNECT TO DATABASE
     - Deal with database connection (log in and password is: libreria);
-    - Make sure there is a database table called libreria in your data base;
+    - Make sure there is a database called libreria in your data base;
 
 - GENERATE DATA
     - Run App;
