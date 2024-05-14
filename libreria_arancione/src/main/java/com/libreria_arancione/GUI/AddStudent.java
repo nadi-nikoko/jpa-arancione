@@ -239,7 +239,7 @@ public class AddStudent extends javax.swing.JDialog {
                                 updateStudent.setSchoolYear(schoolYear);
                                 LibreriaArancione.updateStudent(updateStudent);
                         } else {
-                                LibreriaArancione.addStudent(name, surname, email, phone, schoolYear);
+                                LibreriaArancione.saveStudent(name, surname, email, phone, schoolYear);
                         }
                         this.dispose();
                         new Homepage().setVisible(true);

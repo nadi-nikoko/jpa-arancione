@@ -36,6 +36,11 @@ public class Store {
 
     // Transaction Methods
 
+    private static Connection getConnection() throws SQLException{
+        return DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD);
+    }
+
+
     public static void beginTransaction() {
         if (em.getTransaction().isActive()) {
             throw new StoreException("There is already a Transation on going");
@@ -58,12 +63,16 @@ public class Store {
     }
     // Student Methods
 
-    public static void saveStudent(Student student) {
 
-        if (!em.getTransaction().isActive())
-            beginTransaction();
-        Student saved = em.merge(student);
-        commitTransaction();
+    public static void saveStudent(Student student){
+        try(Connection conn = getConnection()){
+            String sql = "INSERT INTO student (name, surname, email, phone, schoolYear) VALUES (?,?,?,?,?)";
+            try(PreparedStatement ps = conn.prepareStatement(sql)){
+               StoreUtil.studentConstructor(ps, student);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public static void InvalidateStudent(Student student) {
@@ -90,39 +99,22 @@ public class Store {
                 .collect(Collectors.toList());
     }
 
-    public static Optional<Student> findStudentById(int id) {
-        Optional<Student> studentOptional = Optional.empty();
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD)) {
-            String sql = "SELECT * FROM student WHERE id=? AND activate = true";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, id);
-                ResultSet rs = pstmt.executeQuery();
-                if (rs.next()) {
-                    Student student = new Student();
-                    student.setId(rs.getInt("id"));
-                    student.setName(rs.getString("name"));
-                    student.setSurname(rs.getString("surname"));
-                    student.setEmail(rs.getString("email"));
-                    student.setPhone(rs.getString("phone"));
-                    student.setSchoolYear(rs.getString("schoolYear"));
-                    student.setActivate(rs.getBoolean("activate"));
-                    studentOptional = Optional.of(student);
+        public static Optional<Student> findStudentById(int id) {
+            Optional<Student> studentOptional = Optional.empty();
+            try (Connection conn = getConnection()) {
+                String sql = "SELECT * FROM student WHERE id=? AND activate = true";
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setInt(1, id);
+                    ResultSet rs = pstmt.executeQuery();
+                    studentOptional = StoreUtil.studentSetter(rs);
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return studentOptional;
         }
-        return studentOptional;
-    }
 
     // Books Methods
-
-    public static void AddBook(BookShop book) {
-        if (!em.getTransaction().isActive())
-            beginTransaction();
-        BookShop saved = em.merge(book);
-        commitTransaction();
-    }
 
     public static void saveBookTransaction(BookTransaction bookTransaction) {
         beginTransaction();
@@ -130,11 +122,16 @@ public class Store {
         commitTransaction();
     }
 
-    public static void InvalidateBook(BookShop book) {
-        book.setAvailable(false);
-        beginTransaction();
-        em.merge(book);
-        commitTransaction();
+    public static void InvalidateBook(BookShop book){
+        try (Connection conn = getConnection()){
+            String sql = "UPDATE library SET available=false WHERE id=?";
+            try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+                pstmt.setLong(1, book.getId());
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<BookShop> findBookByTitleOrAuthor(String name) {
@@ -156,13 +153,12 @@ public class Store {
 
     public static Optional<BookShop> findBookById(int id) {
         Optional<BookShop> bookOptional = Optional.empty();
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD)) {
+        try (Connection conn = getConnection()) {
             String sql = "SELECT * FROM library WHERE id =? AND available = true";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, id);
                 ResultSet rs = pstmt.executeQuery();
-                BookShop book = StoreUtil.bookSetter(rs);
-                bookOptional = Optional.of(book);
+                bookOptional = StoreUtil.bookSetter(rs); 
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,17 +167,10 @@ public class Store {
     }
 
     public static void saveBook(BookShop book) {
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD)) {
+        try (Connection conn = getConnection()) {
             String sql = "INSERT INTO library (title, author, yearOfPublication, ISBN, publisher, available) VALUES (?,?,?,?,?,?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, book.getTitle());
-                pstmt.setString(2, book.getAuthor());
-                pstmt.setInt(3, book.getYearOfPublication());
-                pstmt.setInt(4, book.getISBN());
-                pstmt.setString(5, book.getPublisher());
-                pstmt.setBoolean(6, book.isAvailable());
-
-                pstmt.executeUpdate();
+                StoreUtil.bookConstructor(pstmt, book);
             }
         } catch (SQLException e) {
             e.printStackTrace();

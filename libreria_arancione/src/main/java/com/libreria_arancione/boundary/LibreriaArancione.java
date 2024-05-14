@@ -12,10 +12,11 @@ public class LibreriaArancione {
 
     // Student Methods
 
-    public static void addStudent(String name, String surname, String email, String phone, String schoolYear) {
+    public static void saveStudent(String name, String surname, String email, String phone, String schoolYear) {
 
         Student std = new Student(name, surname, email, phone, schoolYear);
         Store.saveStudent(std);
+        System.out.println("saving book" + std);
     }
 
     public static void updateStudent(Student Student) {
@@ -46,7 +47,7 @@ public class LibreriaArancione {
     }
 
     public static void updateBook(BookShop book) {
-        Store.AddBook(book);
+        Store.saveBook(book);
     }
 
     public static BookShop findBookById(int id) {

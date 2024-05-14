@@ -11,15 +11,14 @@ import com.libreria_arancione.entity.Student;
 public class App {
     public static void main(String[] args) {
 
-        // LibreriaArancione.addStudent("nico", "nadi", "email@mail.com", "89454", "4th
-        // grade");
+        LibreriaArancione.saveStudent("ale", "xx", "xxxxl@mail.com", "8945434", "4th grade");
 
-        LibreriaArancione.saveBook("zero and ones", "sadie plath", 21, 5545, "independent");
-        // LibreriaArancione.addBook("glitch feminism", "Legacy Russel", 23, 43423,
-        // "independent");
-        // LibreriaArancione.addBook("an appartament in uranus", "paul preciado", 31,
-        // 23125,
-        // "penguin");
+        LibreriaArancione.saveBook("zzzzzzero and ones", "sadie plath", 21, 5545, "independent");
+        LibreriaArancione.saveBook("glitch feminism", "Legacy Russel", 23, 43423,
+        "independent");
+        LibreriaArancione.saveBook("an appartament in uranus", "paul preciado", 31,
+        23125,
+        "penguin");
 
         // LibreriaArancione.Purchase(
         // new BookShop("cyberborg manifest", "haraway", 45, 5465468, "university db"),
