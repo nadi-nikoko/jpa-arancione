@@ -2,8 +2,6 @@ package com.libreria_arancione.entity;
 
 import java.io.Serializable;
 
-import javax.annotation.processing.Generated;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

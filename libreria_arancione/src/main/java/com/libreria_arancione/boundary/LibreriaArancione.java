@@ -3,7 +3,6 @@ package com.libreria_arancione.boundary;
 import java.util.List;
 import com.libreria_arancione.control.Store;
 import com.libreria_arancione.entity.BookTransaction;
-import com.libreria_arancione.entity.CoverType;
 import com.libreria_arancione.entity.BookShop;
 import com.libreria_arancione.entity.Student;
 
@@ -38,9 +37,9 @@ public class LibreriaArancione {
 
     // Book Methods
 
-    public static void addBook(String title, String author, int iSBN, int yearOfPublication, CoverType hardcover,
+    public static void addBook(String title, String author, int iSBN, int yearOfPublication,
             String publisher) {
-        BookShop book = new BookShop(title, author, yearOfPublication, iSBN, hardcover, publisher);
+        BookShop book = new BookShop(title, author, yearOfPublication, iSBN, publisher);
         Store.AddBook(book);
     }
 

@@ -1,6 +1,5 @@
 package com.libreria_arancione.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.CascadeType;
@@ -17,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "book_transaction")
-public class BookTransaction extends BaseEntity implements Serializable {
+public class BookTransaction extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")

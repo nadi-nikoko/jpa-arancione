@@ -42,7 +42,8 @@ public class Store {
 
     public static void saveStudent(Student student) {
 
-        beginTransaction();
+        if (!em.getTransaction().isActive())
+            beginTransaction();
         Student saved = em.merge(student);
         commitTransaction();
     }
@@ -71,11 +72,17 @@ public class Store {
                 .collect(Collectors.toList());
     }
 
+    public static Student findStudentById(int id) {
+        return em.createQuery("SELECT s FROM Student s WHERE s.id =:id  AND s.activate=true", Student.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
     // Books Methods
 
     public static void AddBook(BookShop book) {
-
-        beginTransaction();
+        if (!em.getTransaction().isActive())
+            beginTransaction();
         BookShop saved = em.merge(book);
         commitTransaction();
     }
@@ -110,12 +117,6 @@ public class Store {
 
     }
 
-    public static Student findStudentById(int id) {
-        return em.createQuery("SELECT s FROM Student s WHERE s.id =:id  AND s.activate=true", Student.class)
-                .setParameter("id", id)
-                .getSingleResult();
-    }
-
     public static BookShop findBookById(int id) {
         return em.createQuery("SELECT l FROM BookShop l WHERE l.id =:id AND available=true", BookShop.class)
                 .setParameter("id", id)
@@ -132,6 +133,8 @@ public class Store {
             JOptionPane.showMessageDialog(null, "Change Availability didnt work");
         }
     }
+
+    // DEALING WITH DATA METHODS
 
     public static List<BookTransaction> booksTransactionList() {
         return em.createQuery("SELECT bt FROM BookTransaction bt", BookTransaction.class)

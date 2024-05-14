@@ -3,7 +3,7 @@
 	<persistence-unit name="libreria" transaction-type="RESOURCE_LOCAL">
 		<validation-mode>AUTO</validation-mode>
 		<properties>
-			<property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
+			<property name="jakarta.persistence.schema-generation.database.action" value="none" />
 			<property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/libreria" />
 			<property name="jakarta.persistence.jdbc.user" value="libreria" />
 			<property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
