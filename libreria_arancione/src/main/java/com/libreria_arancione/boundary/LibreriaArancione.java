@@ -1,6 +1,8 @@
 package com.libreria_arancione.boundary;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.libreria_arancione.control.Store;
 import com.libreria_arancione.entity.BookTransaction;
 import com.libreria_arancione.entity.BookShop;
@@ -21,8 +23,8 @@ public class LibreriaArancione {
     }
 
     public static Student findStudentById(int id) {
-        Student studentBuyer = Store.findStudentById(id);
-        return studentBuyer;
+        Optional<Student> std = Store.findStudentById(id);
+        return std.orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
     public static List<Student> findStudentsByName(String student) {
@@ -37,10 +39,10 @@ public class LibreriaArancione {
 
     // Book Methods
 
-    public static void addBook(String title, String author, int iSBN, int yearOfPublication,
+    public static void saveBook(String title, String author, int iSBN, int yearOfPublication,
             String publisher) {
         BookShop book = new BookShop(title, author, yearOfPublication, iSBN, publisher);
-        Store.AddBook(book);
+        Store.saveBook(book);
     }
 
     public static void updateBook(BookShop book) {
@@ -48,8 +50,8 @@ public class LibreriaArancione {
     }
 
     public static BookShop findBookById(int id) {
-        BookShop book = Store.findBookById(id);
-        return book;
+        Optional<BookShop> bookOptional = Store.findBookById(id);
+        return bookOptional.orElseThrow(() -> new RuntimeException("Book not found"));
     }
 
     public static List<BookShop> findBookByTitleOrAuthor(String book) {

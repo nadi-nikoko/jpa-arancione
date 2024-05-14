@@ -38,7 +38,7 @@ public class AddBook extends javax.swing.JDialog {
 
         public AddBook(int id) {
                 this.update = true;
-                updateBook = Store.findBookById(id);
+                updateBook = LibreriaArancione.findBookById(id);
                 initComponents();
                 txAuthor.setText(updateBook.getAuthor());
                 txISBN.setText(String.valueOf(updateBook.getISBN()));
@@ -235,8 +235,7 @@ public class AddBook extends javax.swing.JDialog {
                                 updateBook.setYearOfPublication(yearOfPublication);
                                 LibreriaArancione.updateBook(updateBook);
                         } else {
-                                LibreriaArancione.addBook(title, author, ISBN, yearOfPublication,
-                                                publisher);
+                                LibreriaArancione.saveBook(title, author, ISBN, yearOfPublication, publisher);
                         }
                         this.dispose();
                         new Homepage().setVisible(true);

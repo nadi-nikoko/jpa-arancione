@@ -13,7 +13,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity
 @NamedQueries({
         @NamedQuery(name = BookShop.FIND_BOOK_BY_TITLE, query = "SELECT l from BookShop l WHERE l.title LIKE :title AND available=true"),
         @NamedQuery(name = BookShop.FIND_BOOK_BY_AUTHOR, query = "SELECT l FROM BookShop l WHERE l.author LIKE :author AND available=true")
@@ -24,17 +23,12 @@ public class BookShop extends BaseEntity {
     public final static String FIND_BOOK_BY_TITLE = "BookShop.findBookByTitle";
     public final static String FIND_BOOK_BY_AUTHOR = "BookShop.findBookByAuthor";
 
-    @Column(nullable = false)
     @NotBlank(message = "The title field is required")
     private String title;
-    @Column(nullable = false)
     @NotBlank(message = "The author field is required")
     private String author;
-    @Column(nullable = false)
     private int yearOfPublication;
-    @Column(nullable = false)
     private int ISBN;
-    @Column(nullable = false)
     @NotBlank(message = "The publisher field is required")
     private String publisher;
     private boolean available;

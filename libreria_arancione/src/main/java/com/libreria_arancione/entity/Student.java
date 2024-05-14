@@ -17,7 +17,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@Entity
 @NamedQueries({
         @NamedQuery(name = Student.FIND_STUDENT_BY_NAME, query = "SELECT s FROM Student s WHERE s.name like :name AND s.activate=true"),
         @NamedQuery(name = Student.FIND_STUDENT_BY_SURNAME, query = "SELECT s FROM Student s WHERE s.surname like :surname AND s.activate=true"),
@@ -28,23 +27,15 @@ public class Student extends BaseEntity {
     public final static String FIND_STUDENT_BY_NAME = "Student.findByName";
     public final static String FIND_STUDENT_BY_SURNAME = "Student.findBySurname";
 
-    @NotBlank(message = "The name is required")
-    @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    @NotBlank(message = "The surname is required")
     private String surname;
     @Email(message = "It must be a valid email")
-    @Column(nullable = false)
     @NotBlank(message = "The email is required")
     private String email;
-    @Column(nullable = false)
     @NotBlank(message = "The phone is required")
     private String phone;
-    @Column(nullable = false)
     @NotBlank(message = "The school year field is required")
     private String schoolYear;
-    @Column(nullable = false)
     private boolean activate;
 
     public Student(String name, String surname, String email, String phone, String schoolYear) {

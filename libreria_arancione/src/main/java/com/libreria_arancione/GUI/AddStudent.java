@@ -38,7 +38,7 @@ public class AddStudent extends javax.swing.JDialog {
 
         public AddStudent(int id) {
                 this.update = true;
-                updateStudent = Store.findStudentById(id);
+                updateStudent = LibreriaArancione.findStudentById(id);
                 System.out.println(updateStudent);
                 initComponents();
                 txName.setText(updateStudent.getName());

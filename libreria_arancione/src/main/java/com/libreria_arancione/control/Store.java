@@ -1,8 +1,16 @@
 package com.libreria_arancione.control;
 
 import com.libreria_arancione.entity.BookShop;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import com.libreria_arancione.entity.BookTransaction;
 import com.libreria_arancione.entity.Student;
@@ -13,8 +21,18 @@ import jakarta.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 public class Store {
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("libreria");
-    private static EntityManager em = emf.createEntityManager();
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(Store.JPA_PU);
+    private static EntityManager em = null;
+
+    private static final String JPA_PU = "libreria";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/libreria";
+    private static final String JDBC_USR = "libreria";
+    private static final String JDBC_PWD = "libreria";
+
+    static {
+        System.out.println("create entity manager");
+        em = emf.createEntityManager();
+    }
 
     // Transaction Methods
 
@@ -72,10 +90,29 @@ public class Store {
                 .collect(Collectors.toList());
     }
 
-    public static Student findStudentById(int id) {
-        return em.createQuery("SELECT s FROM Student s WHERE s.id =:id  AND s.activate=true", Student.class)
-                .setParameter("id", id)
-                .getSingleResult();
+    public static Optional<Student> findStudentById(int id) {
+        Optional<Student> studentOptional = Optional.empty();
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD)) {
+            String sql = "SELECT * FROM student WHERE id=? AND activate = true";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    Student student = new Student();
+                    student.setId(rs.getInt("id"));
+                    student.setName(rs.getString("name"));
+                    student.setSurname(rs.getString("surname"));
+                    student.setEmail(rs.getString("email"));
+                    student.setPhone(rs.getString("phone"));
+                    student.setSchoolYear(rs.getString("schoolYear"));
+                    student.setActivate(rs.getBoolean("activate"));
+                    studentOptional = Optional.of(student);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentOptional;
     }
 
     // Books Methods
@@ -117,10 +154,38 @@ public class Store {
 
     }
 
-    public static BookShop findBookById(int id) {
-        return em.createQuery("SELECT l FROM BookShop l WHERE l.id =:id AND available=true", BookShop.class)
-                .setParameter("id", id)
-                .getSingleResult();
+    public static Optional<BookShop> findBookById(int id) {
+        Optional<BookShop> bookOptional = Optional.empty();
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD)) {
+            String sql = "SELECT * FROM library WHERE id =? AND available = true";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                ResultSet rs = pstmt.executeQuery();
+                BookShop book = StoreUtil.bookSetter(rs);
+                bookOptional = Optional.of(book);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bookOptional;
+    }
+
+    public static void saveBook(BookShop book) {
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USR, JDBC_PWD)) {
+            String sql = "INSERT INTO library (title, author, yearOfPublication, ISBN, publisher, available) VALUES (?,?,?,?,?,?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, book.getTitle());
+                pstmt.setString(2, book.getAuthor());
+                pstmt.setInt(3, book.getYearOfPublication());
+                pstmt.setInt(4, book.getISBN());
+                pstmt.setString(5, book.getPublisher());
+                pstmt.setBoolean(6, book.isAvailable());
+
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void changeAvailabilityBook(BookShop book, boolean availability) {
