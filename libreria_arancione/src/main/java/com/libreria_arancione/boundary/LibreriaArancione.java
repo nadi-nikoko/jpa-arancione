@@ -17,7 +17,6 @@ public class LibreriaArancione {
 
         Student std = new Student(name, surname, email, phone, schoolYear);
         Store.saveStudent(std);
-        System.out.println("saving book" + std);
     }
 
     public static void updateStudent(Student Student) {

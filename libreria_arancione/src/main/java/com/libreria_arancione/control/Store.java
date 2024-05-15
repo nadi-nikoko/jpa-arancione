@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import com.libreria_arancione.entity.BookTransaction;
 import com.libreria_arancione.entity.Student;
 import jakarta.persistence.EntityManager;
@@ -27,7 +26,7 @@ public class Store {
     private static final String JDBC_PWD = "libreria";
 
     static {
-        System.out.println("create entity manager");
+
         em = emf.createEntityManager();
     }
 
@@ -120,6 +119,8 @@ public class Store {
 
                 while (resultSet.next()) {
                     BookShop book = StoreUtil.bookConstructor(resultSet);
+                    book.setId(resultSet.getLong("id"));
+                    book.setAvailable(resultSet.getBoolean("available"));
                     result.add(book);
                 }
             }
@@ -204,13 +205,13 @@ public class Store {
 
     public static int TotalBooksSold() {
         int totalBooksSold = 0;
-        String sql = "SELECT COUNT(*) FROM book_transaction"; // Define the SQL query
+        String sql = "SELECT COUNT(*) FROM book_transaction";
 
-        try (Connection conn = getConnection(); // Use semicolon to separate statements
-                PreparedStatement ps = conn.prepareStatement(sql); // Pass the SQL query to prepareStatement
-                ResultSet rs = ps.executeQuery()) { // Execute the prepared statement
+        try (Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
-                totalBooksSold = rs.getInt(1); // Correctly retrieve the count value
+                totalBooksSold = rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -225,12 +226,12 @@ public class Store {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
-                    totalCash = rs.getInt(1); // Get the sum value
+                    totalCash = rs.getInt(1);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return totalCash;// Convert to integer and round if necessary
+        return totalCash;
     }
 }
