@@ -421,7 +421,7 @@ public class Homepage extends javax.swing.JDialog {
                 DefaultListModel<String> listStudentModel = new DefaultListModel();
                 String student = txStudent.getText();
 
-                List<Student> findStudentByName = LibreriaArancione.findStudentsByName(student);
+                List<Student> findStudentByName = LibreriaArancione.findStudentsByNameOrSurname(student);
                 for (Student std : findStudentByName) {
                         listStudentModel.addElement(std.getId() + " - " + std.getName() + " " + std.getSurname());
                 }

@@ -1,5 +1,6 @@
 package com.libreria_arancione.boundary;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,8 @@ public class LibreriaArancione {
         return std.orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
-    public static List<Student> findStudentsByName(String student) {
-        List<Student> studentsByName = Store.findStudentByName(student);
+    public static List<Student> findStudentsByNameOrSurname(String student) {
+        List<Student> studentsByName = Store.findStudentByNameOrSurname(student);
         return studentsByName;
     }
 
@@ -67,9 +68,9 @@ public class LibreriaArancione {
 
     // Other Methods
 
-    public static void Purchase(BookShop bookById, Student studentById, int price) {
-        BookTransaction purchase = new BookTransaction(bookById, studentById, price);
-        Store.changeAvailabilityBook(bookById, false);
+    public static void Purchase(BookShop book, Student student, int price) {
+        BookTransaction purchase = new BookTransaction(book, student, price);
+        Store.InvalidateBook(book);
         Store.saveBookTransaction(purchase);
     }
 

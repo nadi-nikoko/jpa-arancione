@@ -10,18 +10,39 @@ import com.libreria_arancione.entity.Student;
 
 public class StoreUtil {
 
-    public static void bookConstructor(PreparedStatement pstmt, BookShop book) throws SQLException{
+    public static void bookConstructor(PreparedStatement pstmt, BookShop book) throws SQLException {
         pstmt.setString(1, book.getTitle());
         pstmt.setString(2, book.getAuthor());
         pstmt.setInt(3, book.getYearOfPublication());
         pstmt.setInt(4, book.getISBN());
         pstmt.setString(5, book.getPublisher());
         pstmt.setBoolean(6, book.isAvailable());
-
         pstmt.executeUpdate();
     }
 
-    public static void studentConstructor(PreparedStatement ps, Student student) throws SQLException{
+    public static BookShop bookConstructor(ResultSet resultSet) throws SQLException {
+        BookShop book = new BookShop();
+        book.setTitle(resultSet.getString("title"));
+        book.setAuthor(resultSet.getString("author"));
+        book.setYearOfPublication(resultSet.getInt("yearOfPublication"));
+        book.setISBN(resultSet.getInt("ISBN"));
+        book.setPublisher(resultSet.getString("publisher"));
+        book.setAvailable(resultSet.getBoolean("available"));
+        book.setId(resultSet.getLong("id"));
+        return book;
+    }
+
+    public static Student studentConstructor(ResultSet resultSet) throws SQLException {
+        Student student = new Student();
+        student.setId(resultSet.getLong("id"));
+        student.setName(resultSet.getString("name"));
+        student.setSurname(resultSet.getString("surname"));
+        student.setEmail(resultSet.getString("email"));
+        student.setPhone(resultSet.getString("phone"));
+        return student;
+    }
+
+    public static void studentConstructor(PreparedStatement ps, Student student) throws SQLException {
         ps.setString(1, student.getName());
         ps.setString(2, student.getSurname());
         ps.setString(3, student.getEmail());
