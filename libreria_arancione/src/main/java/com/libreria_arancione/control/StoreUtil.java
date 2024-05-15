@@ -27,8 +27,6 @@ public class StoreUtil {
         book.setYearOfPublication(resultSet.getInt("yearOfPublication"));
         book.setISBN(resultSet.getInt("ISBN"));
         book.setPublisher(resultSet.getString("publisher"));
-        book.setAvailable(resultSet.getBoolean("available"));
-        book.setId(resultSet.getLong("id"));
         return book;
     }
 

@@ -174,7 +174,7 @@ public class Store {
 
     public static List<BookTransaction> booksTransactionList() {
         List<BookTransaction> transactionList = new ArrayList<>();
-        String sql = "SELECT bt.id AS transaction_id, b.title AS book_title, b.author AS book_author, b.yearOfPublication, b.ISBN, b.publisher, st.name AS student_name, st.surname AS student_surname, st.email, st.phone, st.schoolYear, bt.price, bt.soldDate FROM book_transaction bt JOIN library b ON bt.book_id = b.id JOIN student st ON bt.student_id = st.id";
+        String sql = "SELECT bt.id AS transaction_id, b.title AS title, b.author AS author, b.yearOfPublication, b.ISBN, b.publisher, st.name AS student_name, st.surname AS student_surname, st.email, st.phone, st.schoolYear, bt.price, bt.soldDate FROM book_transaction bt JOIN library b ON bt.book_id = b.id JOIN student st ON bt.student_id = st.id";
 
         try (Connection conn = getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -182,12 +182,7 @@ public class Store {
                 while (rs.next()) {
                     BookTransaction transaction = new BookTransaction();
                     transaction.setId(rs.getLong("transaction_id"));
-                    transaction.setBook(new BookShop(
-                            rs.getString("book_title"),
-                            rs.getString("book_author"),
-                            rs.getInt("yearOfPublication"),
-                            rs.getInt("ISBN"),
-                            rs.getString("publisher")));
+                    transaction.setBook(StoreUtil.bookConstructor(rs));
 
                     transaction.setStudent(new Student(
                             rs.getString("student_name"),
